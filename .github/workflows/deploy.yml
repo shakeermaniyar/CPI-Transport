@@ -9,12 +9,10 @@ jobs:
 
     steps:
       - name: Get OAuth Token
+        shell: bash
         run: |
-          RESPONSE=$(curl -s --request POST \
-            --url "${{ secrets.DEV_TOKEN_URL }}" \
-            --header "Content-Type: application/x-www-form-urlencoded" \
-            --data "grant_type=client_credentials" \
-            --data "client_id=${{ secrets.DEV_CLIENT_ID }}" \
-            --data "client_secret=${{ secrets.DEV_CLIENT_SECRET }}")
-
-          echo "$RESPONSE"
+          curl -X POST "${{ secrets.DEV_TOKEN_URL }}" \
+          -H "Content-Type: application/x-www-form-urlencoded" \
+          -d "grant_type=client_credentials" \
+          -d "client_id=${{ secrets.DEV_CLIENT_ID }}" \
+          -d "client_secret=${{ secrets.DEV_CLIENT_SECRET }}"
