@@ -1,14 +1,20 @@
-name: CPI Deployment
+name: CPI Authentication Test
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  test:
+  test-auth:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Test Pipeline
-        run: echo "GitHub Actions Working Successfully"
+      - name: Get OAuth Token
+        run: |
+          RESPONSE=$(curl -s --request POST \
+            --url "${{ secrets.DEV_TOKEN_URL }}" \
+            --header "Content-Type: application/x-www-form-urlencoded" \
+            --data "grant_type=client_credentials" \
+            --data "client_id=${{ secrets.DEV_CLIENT_ID }}" \
+            --data "client_secret=${{ secrets.DEV_CLIENT_SECRET }}")
+
+          echo "$RESPONSE"
