@@ -13,5 +13,10 @@ jobs:
 
       - name: Verify Files
         run: |
-          echo "Listing repository contents..."
           ls -R
+
+      - name: Get OAuth Token
+        run: |
+          curl -X POST "${{ secrets.QA_TOKEN_URL }}" \
+          -u "${{ secrets.QA_CLIENT_ID }}:${{ secrets.QA_CLIENT_SECRET }}" \
+          -d "grant_type=client_credentials"
